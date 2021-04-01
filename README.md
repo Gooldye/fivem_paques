@@ -1,7 +1,9 @@
 # fivem_paques
 
 Event Script EasterEgg | 
-Video : Soon..
+Fast Preview : https://streamable.com/l8y7dr
+
+Optimisation : 0.01 MS
 
 ( -- •This script is a rework• -- )
 
