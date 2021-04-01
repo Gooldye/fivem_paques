@@ -1,6 +1,5 @@
 if Config.enableESX then
   TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
-  print('ESX ON')
 end
 
 local pickups = {}
