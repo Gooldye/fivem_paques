@@ -1,6 +1,6 @@
 # fivem_paques
 
-Event Script EasterEgg
+Event Script EasterEgg | 
 Video : Soon..
 
 ( -- •This script is a rework• -- )
