@@ -1,3 +1,8 @@
+if Config.enableESX then
+  TriggerEvent('esx:getSharedObject', function(obj) ESX = obj end)
+  print('ESX ON')
+end
+
 local pickups = {}
 for k,v in pairs(Config.coords) do
   pickups[k] = {GetHashKey(Config.models[k]), v, Config.coords[k]}
@@ -34,6 +39,7 @@ RegisterNetEvent('paques:takePuckup')
 AddEventHandler('paques:takePuckup', function(pickupId)
   local ids = GetPlayerIdentifiers(source)
   local license = GetPlayerLicense(ids)
+  local xPlayer = ESX.GetPlayerFromId(source)
   local data = stats[license]
 
   if not data then
@@ -55,13 +61,32 @@ AddEventHandler('paques:takePuckup', function(pickupId)
   else
     stats[license].count = stats[license].count + 1
   end
-
-  if stats[license].count == #Config.coords then
-    TriggerClientEvent('paques:notify', source, Config.texts[Config.locale].collected_all)
+  if not Config.enableitemsESX then
+    if stats[license].count == #Config.coords then
+      if Config.enable_rewardmoney then
+        TriggerClientEvent('paques:notify', source, Config.texts[Config.locale].collected_all)
+        xPlayer.addMoney(Config.amount_rewardmoney)
+        xPlayer.showNotification(Config.texts[Config.locale].reward)
+      else
+        TriggerClientEvent('paques:notify', source, Config.texts[Config.locale].collected_all)
+      end
+    else
+      TriggerClientEvent('paques:notify', source, Config.texts[Config.locale].collected..' ('..stats[license].count..'/~b~'..#Config.coords..'~s~)')
+    end
   else
-    TriggerClientEvent('paques:notify', source, Config.texts[Config.locale].collected..' ('..stats[license].count..'/~b~'..#Config.coords..'~s~)')
+    if stats[license].count == #Config.coords then
+      if Config.enable_rewardmoney then
+        TriggerClientEvent('paques:notify', source, Config.texts[Config.locale].collected_all)
+      else
+        TriggerClientEvent('paques:notify', source, Config.texts[Config.locale].collected_all)
+        xPlayer.addMoney(Config.amount_rewardmoney)
+        xPlayer.showNotification(Config.texts[Config.locale].reward)
+      end
+    else
+      TriggerClientEvent('paques:notify', source, Config.texts[Config.locale].collected..' ('..stats[license].count..'/~b~'..#Config.coords..'~s~)')
+      xPlayer.addInventoryItem('oeuf_paques', stats[license].count)
+    end
   end
-
   SaveResourceFile(GetCurrentResourceName(), 'stats.json', json.encode(stats), -1)
 end)
 

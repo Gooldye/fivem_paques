@@ -41,6 +41,7 @@ Citizen.CreateThread(function()
         if not playerData.pickups[k] and (not entities[k] or not DoesEntityExist(Citizen.InvokeNative('0x5099BC55630B25AE ', entities[k]))) then
           if GetDistanceBetweenCoords(pc, v[2][1], v[2][2], v[2][3], true) < 100.0 and ModelRequest(v[1]) then
             local pickup = CreatePickupRotate(79909481, v[2][1], v[2][2], v[2][3], v[3][1], v[3][2], v[3][3], 0, 1, -4, 0,v[1])
+            Notify("[Evénement de ~f~Pâques~s~]~n~C'est ~f~Pâques~s~, des ~q~oeufs~s~ ont été cachés en ville..")
             entities[k] = pickup
           end
         end
